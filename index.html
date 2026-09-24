@@ -310,10 +310,24 @@
 .contact-overlay {
     left: 87%;
     top: 4%;
-    width: 11%;
+    width: 7%;
     height: 8%;
     cursor: pointer;
 }
+  .reviews-overlay {
+    position: absolute;
+    z-index: 20;
+    left: 94%;
+    top: 4%;
+    width: 6%;
+    height: 8%;
+    cursor: pointer;
+
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+}      
     </style>
 </head>
 
@@ -358,7 +372,10 @@
     <a class="contact-overlay"
        href="#contact"
        aria-label="Contact"></a>
-
+<!-- Reviews -->
+<a class="reviews-overlay"
+   href="#reviews"
+   aria-label="Reviews">Reviews</a>
 </section>
 
 <!-- SERVICES -->
@@ -454,7 +471,22 @@
     </div>
 </section>
 
+<!-- REVIEWS -->
+<section id="reviews">
 
+    <h2 class="section-title">Customer Reviews</h2>
+
+    <div class="review-box">
+        <p>আপনার সার্ভিসের অভিজ্ঞতা আমাদের জানান।</p>
+
+        <a href="YOUR_GOOGLE_FORM_LINK"
+           target="_blank"
+           class="btn review-btn">
+            ⭐ Write a Review
+        </a>
+    </div>
+
+</section>
 <!-- CONTACT -->
 <section class="contact" id="contact">
 
