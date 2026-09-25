@@ -638,7 +638,7 @@ fetch(sheetURL)
     const c=x.split(",");
     const star=parseFloat(c[2])||5;
     total+=star; count++;
-      stars[Math.round(star)-1]++;
+      stars[5-Math.round(star)]++;
 
     list.innerHTML+=`
       <div class="review-card">
@@ -650,9 +650,10 @@ fetch(sheetURL)
 
   document.getElementById("avgRating").innerText=(count?total/count:5).toFixed(1);
   document.getElementById("totalReviews").innerText=count;
-    for(let i=1;i<=5;i++){
-  document.getElementById("count"+i).innerText=stars[i-1];
-  const p=count?(stars[i-1]/count)*100:0;
+for(let i=5;i>=1;i--){
+  const idx=5-i;
+  document.getElementById("count"+i).innerText=stars[idx];
+  const p=count?(stars[idx]/count)*100:0;
   document.getElementById("bar"+i).style.width=p+"%";
 }
 });
