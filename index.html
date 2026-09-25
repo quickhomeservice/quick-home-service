@@ -346,7 +346,30 @@
 .rating-card h3{
     font-size:30px;
     color:#FFC107;
-}    
+}    .star-bars{
+  margin:20px 0;
+}
+.bar-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:8px 0;
+}
+.bar-row span{
+  width:35px;
+}
+.bar{
+  flex:1;
+  height:10px;
+  background:#333;
+  border-radius:20px;
+}
+.bar div{
+  height:100%;
+  width:0%;
+  background:#FFC107;
+  border-radius:20px;
+}
     </style>
 </head>
 
@@ -513,7 +536,37 @@
   </div>
 
 </div>
+<div class="star-bars">
+  <div class="bar-row">
+    <span>5 ★</span>
+    <div class="bar"><div id="bar5"></div></div>
+    <b id="count5">0</b>
+  </div>
 
+  <div class="bar-row">
+    <span>4 ★</span>
+    <div class="bar"><div id="bar4"></div></div>
+    <b id="count4">0</b>
+  </div>
+
+  <div class="bar-row">
+    <span>3 ★</span>
+    <div class="bar"><div id="bar3"></div></div>
+    <b id="count3">0</b>
+  </div>
+
+  <div class="bar-row">
+    <span>2 ★</span>
+    <div class="bar"><div id="bar2"></div></div>
+    <b id="count2">0</b>
+  </div>
+
+  <div class="bar-row">
+    <span>1 ★</span>
+    <div class="bar"><div id="bar1"></div></div>
+    <b id="count1">0</b>
+  </div>
+</div>
     <div id="reviewList"></div>
 
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeT8Fey9Dlf5QtlS4OJMDZUtjixBAnHihd_aF2ml6nCADE2KQ/viewform"
@@ -579,11 +632,13 @@ fetch(sheetURL)
   const rows=t.split("\n").slice(1).filter(x=>x.trim());
   const list=document.getElementById("reviewList");
   let total=0,count=0;
+    let stars=[0,0,0,0,0];
 
   rows.reverse().forEach(x=>{
     const c=x.split(",");
     const star=parseFloat(c[2])||5;
     total+=star; count++;
+      stars[Math.round(star)-1]++;
 
     list.innerHTML+=`
       <div class="review-card">
@@ -595,6 +650,11 @@ fetch(sheetURL)
 
   document.getElementById("avgRating").innerText=(count?total/count:5).toFixed(1);
   document.getElementById("totalReviews").innerText=count;
+    for(let i=1;i<=5;i++){
+  document.getElementById("count"+i).innerText=stars[i-1];
+  const p=count?(stars[i-1]/count)*100:0;
+  document.getElementById("bar"+i).style.width=p+"%";
+}
 });
 </script>
 </body>
