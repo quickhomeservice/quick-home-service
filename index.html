@@ -327,7 +327,26 @@
     text-decoration: none;
     font-size: 15px;
     font-weight: bold;
-}      
+} 
+        .rating-summary{
+    display:flex;
+    gap:15px;
+    margin:20px 0;
+    flex-wrap:wrap;
+}
+.rating-card{
+    flex:1;
+    min-width:130px;
+    background:#1b2330;
+    border:1px solid #2f3b52;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+.rating-card h3{
+    font-size:30px;
+    color:#FFC107;
+}    
     </style>
 </head>
 
@@ -479,6 +498,21 @@
 
 <div class="review-box">
     <p>আপনার মূল্যবান মতামত আমাদের সেবাকে আরও উন্নত করতে সাহায্য করে।</p>
+    <div class="rating-summary">
+
+  <div class="rating-card">
+    <h3 id="avgRating">5.0</h3>
+    <p>⭐⭐⭐⭐⭐</p>
+    <small>Average Rating</small>
+  </div>
+
+  <div class="rating-card">
+    <h3 id="totalReviews">0</h3>
+    <p>Reviews</p>
+    <small>Happy Customers</small>
+  </div>
+
+</div>
 
     <div id="reviewList"></div>
 
@@ -537,26 +571,31 @@
     </p>
 </footer>
 <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRcwO298h7_Be-gKwXn2RYq_MU3jVx_PJLcnerDSwiXILbmz6Mq7iET9V-wUt9I-v9lL3nqmjlftV-f/pub?output=csv";
+const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRcwO298h7_Be-gKwXn2RYq_MU3jVx_PJLcnerDSwiXILbmz6Mq7iET9V-wUt9I-v9lL3nqmjlftV-f/pub?output=csv";
 
 fetch(sheetURL)
-  .then(r => r.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
-    const reviewList = document.getElementById("reviewList");
+.then(r=>r.text())
+.then(t=>{
+  const rows=t.split("\n").slice(1).filter(x=>x.trim());
+  const list=document.getElementById("reviewList");
+  let total=0,count=0;
 
-    rows.reverse().forEach(row => {
-      const c = row.split(",");
-      if(c.length < 4) return;
+  rows.reverse().forEach(x=>{
+    const c=x.split(",");
+    const star=parseFloat(c[2])||5;
+    total+=star; count++;
 
-      reviewList.innerHTML += `
-        <div class="review-card">
-          <h4>${c[1]}</h4>
-          <div style="color:#FFC107;font-size:18px">${c[2]}</div>
-          <p>${c[3]}</p>
-        </div>`;
-    });
+    list.innerHTML+=`
+      <div class="review-card">
+        <h4>${c[1]||"Customer"}</h4>
+        <div style="color:#FFC107">${"⭐".repeat(Math.round(star))}</div>
+        <p>${c[3]||""}</p>
+      </div>`;
   });
+
+  document.getElementById("avgRating").innerText=(count?total/count:5).toFixed(1);
+  document.getElementById("totalReviews").innerText=count;
+});
 </script>
 </body>
 </html>
