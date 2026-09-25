@@ -477,15 +477,17 @@
 
     <h2 class="section-title">Customer Reviews</h2>
 
-    <div class="review-box">
-     <p>আপনার মূল্যবান মতামত আমাদের সেবাকে আরও উন্নত করতে সাহায্য করে।</p>
+<div class="review-box">
+    <p>আপনার মূল্যবান মতামত আমাদের সেবাকে আরও উন্নত করতে সাহায্য করে।</p>
 
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeT8Fey9Dlf5QtlS4OJMDZUtjixBAnHihd_aF2ml6nCADE2KQ/viewform"
-           target="_blank"
-           class="btn review-btn">
-            ⭐ Write a Review
-        </a>
-    </div>
+    <div id="reviewList"></div>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeT8Fey9Dlf5QtlS4OJMDZUtjixBAnHihd_aF2ml6nCADE2KQ/viewform"
+       target="_blank"
+       class="btn review-btn">
+        ⭐ Write a Review
+    </a>
+</div>
 
 </section>
 <!-- CONTACT -->
@@ -534,6 +536,27 @@
         © 2026 Quick Home Service. All Rights Reserved.
     </p>
 </footer>
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRcwO298h7_Be-gKwXn2RYq_MU3jVx_PJLcnerDSwiXILbmz6Mq7iET9V-wUt9I-v9lL3nqmjlftV-f/pub?output=csv";
 
+fetch(sheetURL)
+  .then(r => r.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const reviewList = document.getElementById("reviewList");
+
+    rows.reverse().forEach(row => {
+      const c = row.split(",");
+      if(c.length < 4) return;
+
+      reviewList.innerHTML += `
+        <div class="review-card">
+          <h4>${c[1]}</h4>
+          <div style="color:#FFC107;font-size:18px">${c[2]}</div>
+          <p>${c[3]}</p>
+        </div>`;
+    });
+  });
+</script>
 </body>
 </html>
